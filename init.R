@@ -18,6 +18,7 @@ source('indepTests/gaussCIFishertest.R')
 source('indepTests/gaussCIcontexttest_slow.R')
 source('indepTests/gaussCIcontexttest.R')
 source('indepTests/gaussCIsincontest.R')
+source('indepTests/nbtest.R')
 
 # source jci-fci functions
 source('jci/fci_wrapper.R')

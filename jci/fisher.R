@@ -1,7 +1,7 @@
 # Copyright (c) 2018-2020, Joris M. Mooij. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-fisher <- function(data,systemVars,contextVars,alpha=1e-2,verbose=0,subsamplefrac=0.0) {
+fisher <- function(data,systemVars,contextVars,alpha=1e-2,verbose=0,subsamplefrac=0.0, nb=TRUE) {
   # data:          Nxp matrix
   # systemVars:    indices of sysem variables (in 1..p)
   # contextVars:   indices of context variables (in 1..p)
@@ -35,7 +35,12 @@ fisher <- function(data,systemVars,contextVars,alpha=1e-2,verbose=0,subsamplefra
     suffStat<-list(data=data,contextVars=contextVars,uniqueContextValues=uniqueContextValues,regimes=regimes,verbose=verbose,removeNAs=removeNAs)
     for( c in 1:pCon ) {
       for( i in 1:pSys ) {
-        pvals[c,i]<-gaussCIcontexttest(contextVars[c],i,setdiff(contextVars,contextVars[c]),suffStat=suffStat)
+        if( nb ) {
+          pvals[c,i] <- nbtest(contextVars[c], i, setdiff(contextVars,contextVars[c]), suffStat=suffStat)
+        }
+        else {
+          pvals[c,i]<-gaussCIcontexttest(contextVars[c],i,setdiff(contextVars,contextVars[c]),suffStat=suffStat)
+        }
         arel[contextVars[c],i] <- -log(pvals[c,i]) + log(alpha)
       }
     }

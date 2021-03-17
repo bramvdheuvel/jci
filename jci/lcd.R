@@ -53,6 +53,9 @@ lcd <- function(data,systemVars,contextVars,alpha=1e-2,verbose=0,subsamplefrac=0
     } else if( test == 'gaussCIsincontest' ) {
       indepTest<-gaussCIsincontest
       suffStat<-list(data=data,contextVars=contextVars,verbose=verbose,removeNAs=removeNAs)
+    } else if( test == 'nbtest') {
+      indepTest <- nbtest
+      suffStat <- list(data=data)
     } else {
       error('unknown test')
     }
@@ -68,7 +71,7 @@ lcd <- function(data,systemVars,contextVars,alpha=1e-2,verbose=0,subsamplefrac=0
         p_ci[c,i] <- indepTest(pSys+c,i,c(),suffStat)
     }
     for( i in 1:pSys )
-      for( j in 1:pSys ) 
+      for( j in 1:pSys )
         if( i != j && p_ij[i,j] < alpha )
           for( c in 1:pCon )
             if( p_ci[c,i] < alpha ) {
